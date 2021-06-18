@@ -11,17 +11,15 @@ typedef struct
 
 void getNumbers(int size, int *numbers);
 void setPoints(int size, int *arrayNumbers, Point *points);
-void writeFile(int size, int *arrayNumbers, Point *points, float *relations, int combinations);
+void writeFile(int size, int *arrayNumbers, int combinations);
 int combination(int **table, int n, int k);
 void bruteForce(Point *P, int size, int combinations, float *temp);
 
-
-
-void writeFile(int size, int *arrayNumbers, Point *points, float *relations, int combinations)
+void writeFile(int size, int *arrayNumbers, int combinations)
 {
     FILE *filePtr;
     char path [] = "Files/";
-    char fileName [20];
+    char fileName [26];
     char numberOfPoints[3];
 
     sprintf(numberOfPoints, "%d", size);
@@ -44,10 +42,10 @@ void writeFile(int size, int *arrayNumbers, Point *points, float *relations, int
     /*
         Parte para imprimir los números
     */
-    fputs("\t\"Points:\" [", filePtr);
+    fputs("\t\"points\": [", filePtr);
     
     getNumbers(size, arrayNumbers);
-    setPoints(size, arrayNumbers, points);
+    //setPoints(size, arrayNumbers, points);
     
     for(int i = 0, count  = 0; i < 2 * size; )
     {
@@ -62,59 +60,49 @@ void writeFile(int size, int *arrayNumbers, Point *points, float *relations, int
         }
     }
 
-    /*
-        Se obtienen relaciones
-    */
-    bruteForce(points, size, combinations, relations);
-    for(int i = 0; i < combinations; i++)
-       printf("Relations: %f\n", relations[i]);
-    /*
-        Parte para imprimir las relaciones
-    */
-    fputs("\n\t\"Relations:\" [\n", filePtr);
+    fputs("\n\t\"relations\": [\n", filePtr);
     fputs("\t\t{\n", filePtr);
-    //printf("p_1: ");
-    fputs("\t\t\t\"P_1\": \"", filePtr);
-    for(int i = 0, j = size - 1, count  = 0, n=2; i < combinations; i++, count++)
+    printf("combination F: %d\n", combinations);
+    for(int i = 1, count = 0, j = 1, n = 1, k = 1; n < combinations;n++, j++)
     {
         
-        if(j == count)
+        printf("i: %d, count: %d\n", i, count);
+        if(size - k == 1)    
         {
-            //printf("\n");
-            //printf("p_%d: ", n);
+            fprintf(filePtr, "\t\t\t\"p_1\": \"%d,%d\",\n", arrayNumbers[count], arrayNumbers[count+1]);  
+            fprintf(filePtr, "\t\t\t\"p_2\": \"%d,%d\"\n", arrayNumbers[count + i + 1], arrayNumbers[count + i + 2]);  
+            fputs("\t\t}\n", filePtr);
+            break;
             
-            fputs("\n", filePtr);
-            fprintf(filePtr, "\t\t\t\"P_%d\": \"", n);
-            j--;
-            n++;
-            count = 0;
-        }  
-        if(count ==  j - 1)
+        } 
+        else 
         {
-            fprintf(filePtr, "%0.3f\" ,", relations[i]);
-            //count;
-        }
-        else
+        fprintf(filePtr, "\t\t\t\"p_1\": \"%d,%d\",\n", arrayNumbers[count], arrayNumbers[count+1]);  
+        fprintf(filePtr, "\t\t\t\"p_2\": \"%d,%d\"\n", arrayNumbers[count + i + 1], arrayNumbers[count + i + 2]);  
+        fputs("\t\t},\n", filePtr);
+        } 
+        
+        
+       
+        printf("i: %d, j: %d, condition: %d\n", i, j, size - k);
+        if(j == size - k && size - k >1)  
         {
-            fprintf(filePtr, "%0.3f,", relations[i]);
+            j=1;
+            k++;
+            //i = 1;
+            count+=2;
+            i = 1;
         }
-        
-
-        
-        //printf("%f, ",relations[i]);
-
+        else 
+             i+=2;            
     }
-    //fputs("\t\t\t\"p_1\",\n", filePtr);
-    //fputs("\t\t\t\"p_2\",\n", filePtr);
 
     /*
         Formato constante
     */
-    fputs("\n\t\t}\n", filePtr);
     fputs("\t]\n", filePtr);
     fputs("}", filePtr);
 
-    //free(arrayOfNumbers);
     fclose(filePtr);
 
     printf("\nSe ha creado el archivo con %d numeros\n", size);
@@ -140,49 +128,6 @@ void getNumbers(int size, int *numbers)
             cont++;
         }        
     }
-}
-
-void setPoints(int size, int *arrayNumbers, Point *points)
-{
-    for(int i = 0, count  = 0; i < 2 * size; count++)
-    {
-        points[count].x = arrayNumbers[i];
-        points[count].y = arrayNumbers[i+1];
-        //printf("Array points. x: %d, y:%d\n", arrayNumbers[i], arrayNumbers[i+1]);
-        printf("Points. x: %d, y:%d\n", points[count].x, points[count].y);
-        //count++;
-        i+=2;
-        //printf("i: %d\n", i);
-     
-        if(count + 1  == size) break;
-    }
-}
-
-float distance(Point P1, Point P2)
-{
-    return sqrt(
-                    (P1.x - P2.x) * (P1.x - P2.x) + 
-                    (P1.y - P2.y) * (P1.y - P2.y) 
-                );
-}
-
-void bruteForce(Point *P, int size, int combinations, float *temp)
-{
-
-    for(int i = 0, count = 0; i < combinations; i++)
-        for(int j = i+1; j < size; j++, count++) 
-            temp[count] = distance(P[i], P[j]);
-
-    /*
-    for(int m = 0; m < combinations; m++)
-            printf("temp: %f\n", temp[m]);
-
-    */
-            //if(distance(P[i], P[j]) < min)
-               // min = distance(P[i], P[j]);
-    //return temp;
-    //free(M);
-    //free(temp);
 }
 
 /*
@@ -219,7 +164,6 @@ int main(void)
 {
     int size = 10;
     int *array = malloc(2 * size * sizeof(int));
-    Point *points = malloc(size * sizeof(Point));
 
    /*
         To calculate possible combinations between points
@@ -235,14 +179,12 @@ int main(void)
             M[i][j] = -1;
     int combinations = combination(M, size, k);
     printf("main combinations: %d\n", combinations);
-    float *temp = malloc(combinations * sizeof(float));
+
    /*
     Next part
    */
-    writeFile(size , array, points, temp, combinations);
+    writeFile(size , array, combinations);
     free(array);
-    free(points);
     free(M);
-    free(temp);
     return 0;
 }
