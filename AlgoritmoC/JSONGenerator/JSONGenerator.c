@@ -61,7 +61,7 @@ void writeFile(int size, int *arrayNumbers, int combinations)
     }
 
     fputs("\n\t\"relations\": [\n", filePtr);
-    fputs("\t\t{\n", filePtr);
+    //fputs("\t\t{\n", filePtr);
     printf("combination F: %d\n", combinations);
     for(int i = 1, count = 0, j = 1, n = 1, k = 1; n < combinations;n++, j++)
     {
@@ -69,6 +69,7 @@ void writeFile(int size, int *arrayNumbers, int combinations)
         printf("i: %d, count: %d\n", i, count);
         if(size - k == 1)    
         {
+            fputs("\t\t{\n", filePtr);
             fprintf(filePtr, "\t\t\t\"p_1\": \"%d,%d\",\n", arrayNumbers[count], arrayNumbers[count+1]);  
             fprintf(filePtr, "\t\t\t\"p_2\": \"%d,%d\"\n", arrayNumbers[count + i + 1], arrayNumbers[count + i + 2]);  
             fputs("\t\t}\n", filePtr);
@@ -77,6 +78,7 @@ void writeFile(int size, int *arrayNumbers, int combinations)
         } 
         else 
         {
+            fputs("\t\t{\n", filePtr);
         fprintf(filePtr, "\t\t\t\"p_1\": \"%d,%d\",\n", arrayNumbers[count], arrayNumbers[count+1]);  
         fprintf(filePtr, "\t\t\t\"p_2\": \"%d,%d\"\n", arrayNumbers[count + i + 1], arrayNumbers[count + i + 2]);  
         fputs("\t\t},\n", filePtr);
