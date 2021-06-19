@@ -68,8 +68,6 @@ function drawPoints(data) {
   });
 }
 
-
-
 function setClosestPoints(distance, pointAx, pointAy, pointBx, pointBy) {
   if(distance < closestDistance) {
     closestDistance = distance;
@@ -80,6 +78,10 @@ function setClosestPoints(distance, pointAx, pointAy, pointBx, pointBy) {
     document.querySelector('.content p').textContent = distance;
     document.querySelector('.content .points p').textContent = `[(${pointAx},${pointAy}),(${pointBx},${pointBy})],`;
   }
+}
+
+function reload() {
+  location.reload(); 
 }
 
 

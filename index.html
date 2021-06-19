@@ -16,17 +16,12 @@
         <div class="points">
             <p></p>
         </div>
+
+        <button type="button" onClick="reload()">Reset</button>
+
+        <input type="file" onchange="loadFile(this.files[0])">
+        <br>
     </div>
-
-    <input type="file" onchange="loadFile(this.files[0])">
-    <br>
-
-    <svg width="0" height="0">
-        <pattern id="pattern" patternUnits="userSpaceOnUse" x="0" y="0" width="10"
-         height="10" viewBox="0 0 10 10">
-            <path d="M-5,0,10,15M0-5,15,10" stroke="white" stroke-width="5"/>
-        </pattern>
-    </svg>
 
     
     <script src="js/01-app.js"></script>
