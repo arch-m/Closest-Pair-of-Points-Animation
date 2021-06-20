@@ -7,7 +7,7 @@ async function loadFile(file) {
 }
 
 function drawPoints(data) {
-  const s = Snap().attr({viewBox: "0 0 1000 1000", padding: "3px"});
+  const s = Snap("#svg");
   Object.values(data)[0].forEach((point) => {
     let values = point.split(',');
     s.circle(parseInt(values[0]), parseInt(values[1]), 10).attr({
