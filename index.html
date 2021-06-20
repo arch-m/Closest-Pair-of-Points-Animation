@@ -9,26 +9,48 @@
     <script src="js/snap-svg/dist/snap.svg.js"></script>
 </head>
 <body>
- 
-    <div class="content">
+    <header>
         <h1>Closest Pair of Points</h1>
-        <p></p>
-
-
+    </header>
+    <div class="content">
         <div class="content-buttons">
-            <button type="button" onClick="reload()">Reset</button>
+            <br>
+            <h2>Problem Statement</h2>
+            <br>
+            <br>
+            <p id="problem">
+                We are given an array of n points in the plane,
+                and the problem is to find out the closest pair of points 
+                in the array. This problem arises in a number of applications. 
+                For example, in air-traffic control, you may want to monitor 
+                planes that come too close together, since this may indicate a possible collision.
+            </p>
+
+            <br><br>
+
             <input type="file" onchange="loadFile(this.files[0])">
             <br>
+            <button type="button" onClick="reload()">Reset</button>
+            <br><br>
+            <h3>Distance</h3>
+            <br>
+            <p class="p1"></p>
+            <br><br>
+            <h3>Coordinates</h3>
+            <br>
+            <p class="p2"></p>
         </div>
 
         <div class="points">
-            <p></p>
+            <svg id="svg" width="1000" height="1000"></svg>
         </div>
 
-        <svg id="svg" width="1000" height="1000"></svg>
+        
     </div>
     
     <script src="js/01-app.js"></script>
-    
+    <footer>
+        2021 Analisis de algoritmos Equipo Los 4
+    </footer>
 </body>
 </html>
