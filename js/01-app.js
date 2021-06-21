@@ -75,13 +75,14 @@ function setClosestPoints(distance, pointAx, pointAy, pointBx, pointBy) {
     cPointAy = pointAy;
     cPointBx = pointBx;
     cPointBy = pointBy;
-    document.querySelector('.content p').textContent = distance;
-    document.querySelector('.content .points p').textContent = `[(${pointAx},${pointAy}),(${pointBx},${pointBy})],`;
+    document.querySelector('.content .p1').textContent = distance;
+    document.querySelector('.content .p2').textContent = `[(${pointAx},${pointAy}),(${pointBx},${pointBy})],`;
   }
 }
 
 function reload() {
   location.reload(); 
 }
+
 
 
