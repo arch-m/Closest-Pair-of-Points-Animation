@@ -41,6 +41,7 @@ function drawPoints(data) {
             stroke: "#DB97A8",
           }, 250, mina.easein, () => {
             line.animate({}, 500, mina.easein, () => {
+              setClosestPoints(distance, x1, y1, x2, y2);
               line.remove();
               s.line(cPointAx,cPointAy,cPointBx,cPointBy).attr({
                 fill: "#01BABE",
@@ -76,13 +77,14 @@ function setClosestPoints(distance, pointAx, pointAy, pointBx, pointBy) {
     cPointBx = pointBx;
     cPointBy = pointBy;
     document.querySelector('.content .p1').textContent = distance;
-    document.querySelector('.content .p2').textContent = `[(${pointAx},${pointAy}),(${pointBx},${pointBy})],`;
+    document.querySelector('.content .p2').textContent = `(${pointAx},${pointAy}),(${pointBx},${pointBy})`;
   }
 }
 
 function reload() {
   location.reload(); 
 }
+
 
 
 
